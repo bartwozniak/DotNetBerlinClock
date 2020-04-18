@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace BerlinClock
 {
     public class TimeConverter : ITimeConverter
     {
-        public string convertTime(string aTime)
+        public string ConvertTime(string aTime)
         {
             throw new NotImplementedException();
         }
