@@ -6,7 +6,7 @@ namespace BerlinClock
     {
         public string ConvertTime(string aTime)
         {
-            throw new NotImplementedException();
+            return "Y";
         }
     }
 }
