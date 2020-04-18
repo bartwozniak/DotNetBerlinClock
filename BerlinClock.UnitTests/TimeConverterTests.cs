@@ -4,33 +4,33 @@ namespace BerlinClock.UnitTests
 {
     public class Tests
     {
-        [TestCase("24:00:00")]
-        [TestCase("00:00:00")]
-        [TestCase("00:00:20")]
-        [TestCase("00:00:44")]
-        [TestCase("10:55:04")]
-        [TestCase("04:37:08")]
-        [TestCase("22:12:58")]
-        public void WhenConvertingEvenSecondsFirstLightShouldBeYellow(string time)
+        [TestCase(24, 00, 00)]
+        [TestCase(00, 00, 00)]
+        [TestCase(00, 00, 20)]
+        [TestCase(00, 00, 44)]
+        [TestCase(10, 55, 04)]
+        [TestCase(04, 37, 08)]
+        [TestCase(22, 12, 58)]
+        public void WhenConvertingEvenSecondsFirstLightShouldBeOn(int hours, int minutes, int seconds)
         {
-            var berlinClock = new TimeConverter();
-            var result = berlinClock.ConvertTime(time);
+            var berlinClock = new BerlinClock(hours, minutes, seconds);
+            var result = berlinClock.SecondsLight;
 
-            StringAssert.StartsWith(result, "Y");
+            Assert.IsTrue(result.IsOn);
         }
 
-        [TestCase("00:00:01")]
-        [TestCase("00:00:11")]
-        [TestCase("00:00:31")]
-        [TestCase("10:55:05")]
-        [TestCase("04:37:59")]
-        [TestCase("22:12:17")]
-        public void WhenConvertingOddSecondsFirstLightShouldBeOff(string time)
+        [TestCase(00, 00, 01)]
+        [TestCase(00, 00, 11)]
+        [TestCase(00, 00, 31)]
+        [TestCase(10, 55, 05)]
+        [TestCase(04, 37, 59)]
+        [TestCase(22, 12, 17)]
+        public void WhenConvertingOddSecondsFirstLightShouldBeOff(int hours, int minutes, int seconds)
         {
-            var berlinClock = new TimeConverter();
-            var result = berlinClock.ConvertTime(time);
+            var berlinClock = new BerlinClock(hours, minutes, seconds);
+            var result = berlinClock.SecondsLight;
 
-            StringAssert.StartsWith(result, "O");
+            Assert.IsFalse(result.IsOn);
         }
     }
 }
