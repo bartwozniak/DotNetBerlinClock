@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace BerlinClock
 {
@@ -6,7 +7,15 @@ namespace BerlinClock
     {
         public string ConvertTime(string aTime)
         {
-            return "Y";
+            if (IsEven(aTime.ToCharArray().Last()))
+                return "Y";
+
+            return "O";
+        }
+
+        private bool IsEven(char digit)
+        {
+            return int.Parse(digit.ToString()) % 2 == 0;
         }
     }
 }
