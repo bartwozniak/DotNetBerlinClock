@@ -1,7 +1,6 @@
 ﻿using System;
 using TechTalk.SpecFlow;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+using NUnit.Framework;
 
 namespace BerlinClock
 {
@@ -11,7 +10,6 @@ namespace BerlinClock
         private ITimeConverter berlinClock = new TimeConverter();
         private String theTime;
 
-        
         [When(@"the time is ""(.*)""")]
         public void WhenTheTimeIs(string time)
         {
