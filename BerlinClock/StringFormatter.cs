@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using BerlinClock.Lights;
 
 namespace BerlinClock
@@ -7,7 +9,20 @@ namespace BerlinClock
     {
         public string Format(BerlinClock clock)
         {
-            return $"{Format(clock.SecondsLight)}\n\n\n\n";
+            var seconds = Format(clock.SecondsLight);
+            var hours = Format(clock.FirstRow);
+            return $"{seconds}\n{hours}\n\n\n";
+        }
+
+        private string Format(IEnumerable<Light> row)
+        {
+            var sb = new StringBuilder();
+            foreach(var light in row)
+            {
+                sb.Append(Format(light));
+            }
+
+            return sb.ToString();
         }
 
         private string Format(Light light)
