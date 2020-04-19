@@ -39,7 +39,7 @@ namespace BerlinClock.UnitTests
         [TestCase(10, 10, -100000)]
         public void WhenConvertingNegativeSecondsClockCannotBeConstructed(int hours, int minutes, int negativeSeconds)
         {
-            Assert.Throws<ArgumentException>(() => new BerlinClock(hours, minutes, negativeSeconds));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new BerlinClock(hours, minutes, negativeSeconds));
         }
 
         [TestCase(10, 10, 60)]
@@ -47,7 +47,7 @@ namespace BerlinClock.UnitTests
         [TestCase(10, 10, 99999)]
         public void WhenGivenTooLargeSecondsClockCannotBeConstructed(int hours, int minutes, int tooLargeSeconds)
         {
-            Assert.Throws<ArgumentException>(() => new BerlinClock(hours, minutes, tooLargeSeconds));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new BerlinClock(hours, minutes, tooLargeSeconds));
         }
     }
 }
