@@ -5,6 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Lights\" />
+    <Folder Include="Builder\" />
   </ItemGroup>
 </Project>

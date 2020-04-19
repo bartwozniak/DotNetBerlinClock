@@ -1,4 +1,4 @@
-﻿namespace BerlinClock.Lights
+﻿namespace BerlinClock
 {
     public struct Light
     {

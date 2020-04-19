@@ -1,4 +1,5 @@
 ﻿using System;
+using BerlinClock.Builder;
 using NUnit.Framework;
 
 namespace BerlinClock.UnitTests
@@ -10,7 +11,7 @@ namespace BerlinClock.UnitTests
         public void WhenFormattingBerlinClockOutputHasFiveLines()
         {
             var formatter = new StringFormatter();
-            var output = formatter.Format(new BerlinClock(new Time(0, 0, 0)));
+            var output = formatter.Format(new BerlinClockBuilder(new Time(0, 0, 0)).Build());
 
             Assert.That(output.Split(Environment.NewLine).Length, Is.EqualTo(5));
         }
@@ -20,7 +21,7 @@ namespace BerlinClock.UnitTests
         public void WhenFormattingBerlinClockSecondsIsDenotedCorrectly(int second, string expectedOutput)
         {
             var formatter = new StringFormatter();
-            var output = formatter.Format(new BerlinClock(new Time(0, 0, second)));
+            var output = formatter.Format(new BerlinClockBuilder(new Time(0, 0, second)).Build());
             var secondsOutput = output.Split(Environment.NewLine)[0];
 
             Assert.That(secondsOutput, Is.EqualTo(expectedOutput));
@@ -36,7 +37,7 @@ namespace BerlinClock.UnitTests
         public void WhenFormattingBerlinClockTopRowHoursAreDenotedCorrectly(int hour, string expectedOutput)
         {
             var formatter = new StringFormatter();
-            var output = formatter.Format(new BerlinClock(new Time(hour, 0, 0)));
+            var output = formatter.Format(new BerlinClockBuilder(new Time(hour, 0, 0)).Build());
             var secondsOutput = output.Split(Environment.NewLine)[1];
 
             Assert.That(secondsOutput, Is.EqualTo(expectedOutput));
@@ -53,7 +54,7 @@ namespace BerlinClock.UnitTests
         public void WhenFormattingBerlinClockBottomRowHoursAreDenotedCorrectly(int hour, string expectedOutput)
         {
             var formatter = new StringFormatter();
-            var output = formatter.Format(new BerlinClock(new Time(hour, 0, 0)));
+            var output = formatter.Format(new BerlinClockBuilder(new Time(hour, 0, 0)).Build());
             var secondsOutput = output.Split(Environment.NewLine)[2];
 
             Assert.That(secondsOutput, Is.EqualTo(expectedOutput));
@@ -75,7 +76,7 @@ namespace BerlinClock.UnitTests
         public void WhenFormattingBerlinClockTopRowMinutesAreDenotedCorrectly(int minute, string expectedOutput)
         {
             var formatter = new StringFormatter();
-            var output = formatter.Format(new BerlinClock(new Time(0, minute, 0)));
+            var output = formatter.Format(new BerlinClockBuilder(new Time(0, minute, 0)).Build());
             var secondsOutput = output.Split(Environment.NewLine)[3];
 
             Assert.That(secondsOutput, Is.EqualTo(expectedOutput));
@@ -97,7 +98,7 @@ namespace BerlinClock.UnitTests
         public void WhenFormattingBerlinClockBottomRowMinutesAreDenotedCorrectly(int minute, string expectedOutput)
         {
             var formatter = new StringFormatter();
-            var output = formatter.Format(new BerlinClock(new Time(0, minute, 0)));
+            var output = formatter.Format(new BerlinClockBuilder(new Time(0, minute, 0)).Build());
             var secondsOutput = output.Split(Environment.NewLine)[4];
 
             Assert.That(secondsOutput, Is.EqualTo(expectedOutput));

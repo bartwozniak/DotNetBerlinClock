@@ -1,6 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
-using BerlinClock.Lights;
+using BerlinClock.Builder;
 using NUnit.Framework;
 
 namespace BerlinClock.UnitTests
@@ -16,7 +15,7 @@ namespace BerlinClock.UnitTests
         [TestCase(22, 12, 58)]
         public void WhenConvertingEvenSecondsFirstLightIsOn(int hours, int minutes, int seconds)
         {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var result = berlinClock.SecondsLight;
 
             Assert.IsTrue(result.IsOn);
@@ -30,7 +29,7 @@ namespace BerlinClock.UnitTests
         [TestCase(22, 12, 17)]
         public void WhenConvertingOddSecondsFirstLightIsOff(int hours, int minutes, int seconds)
         {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var result = berlinClock.SecondsLight;
 
             Assert.IsFalse(result.IsOn);
@@ -60,7 +59,7 @@ namespace BerlinClock.UnitTests
         [TestCase(24, 00, 00, 4)]
         public void WhenConvertingHoursCorrectNumberOfLightsInFirstRowIsOn(int hours, int minutes, int seconds, int expectedOn)
         {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var row = berlinClock.FirstRow;
 
             Assert.That(row.Take(expectedOn), Has.Exactly(expectedOn).LightsOn());
@@ -82,7 +81,7 @@ namespace BerlinClock.UnitTests
         [TestCase(24, 00, 00, 4)]
         public void WhenConvertingHoursCorrectNumberOfLightsInSecondRowIsOn(int hours, int minutes, int seconds, int expectedOn)
         {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var row = berlinClock.SecondRow;
 
             Assert.That(row.Take(expectedOn), Has.Exactly(expectedOn).LightsOn());
@@ -105,7 +104,7 @@ namespace BerlinClock.UnitTests
         [TestCase(00, 55, 00, 11)]
         public void WhenConvertingMinutesCorrectNumberOfLightsInThirdRowIsOn(int hours, int minutes, int seconds, int expectedOn)
         {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var row = berlinClock.ThirdRow;
 
             Assert.That(row.Take(expectedOn), Has.Exactly(expectedOn).LightsOn());
@@ -122,7 +121,7 @@ namespace BerlinClock.UnitTests
         [TestCase(00, 59, 00, 4)]
         public void WhenConvertingMinutesCorrectNumberOfLightsInFourthRowIsOn(int hours, int minutes, int seconds, int expectedOn)
         {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var row = berlinClock.FourthRow;
 
             Assert.That(row.Take(expectedOn), Has.Exactly(expectedOn).LightsOn());
@@ -136,7 +135,7 @@ namespace BerlinClock.UnitTests
         [TestCase(21, 21, 21)]
         public void WhenClockIsContructedAllHourLightsAreRed(int hours, int minutes, int seconds)
         {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var firstRow = berlinClock.FirstRow;
             var secondRow = berlinClock.SecondRow;
 
@@ -153,7 +152,7 @@ namespace BerlinClock.UnitTests
         public void WhenClockIsContructedMinutesLightsNotForQuartersAreYellow(int hours, int minutes, int seconds)
         {
             var quarterIndices = new[] { 2, 5, 8 };
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var toCheck =
                 berlinClock
                     .ThirdRow
@@ -171,7 +170,7 @@ namespace BerlinClock.UnitTests
         public void WhenClockIsContructedMinutesLightsForQuartersAreRed(int hours, int minutes, int seconds)
         {
             var quarterIndices = new[] { 2, 5, 8 };
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var toCheck =
                 berlinClock
                     .ThirdRow
@@ -188,7 +187,7 @@ namespace BerlinClock.UnitTests
         [TestCase(22, 48, 33)]
         public void WhenClockIsContructedMinutesLightsInLastRowAreYellow(int hours, int minutes, int seconds)
         {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var berlinClock = new BerlinClockBuilder(new Time(hours, minutes, seconds)).Build();
             var row = berlinClock.FourthRow;
 
             Assert.That(row, Has.Exactly(4).YellowLights());
