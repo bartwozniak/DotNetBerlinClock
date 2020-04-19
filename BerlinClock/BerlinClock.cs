@@ -44,7 +44,7 @@ namespace BerlinClock
         private IList<Light> MakeSecondRow(Time time)
         {
             if (time.Hour != 0)
-                return new[] { Light.On };
+                return new[] { Light.On, Light.Off, Light.Off, Light.Off };
 
             return new Light[4];
         }
