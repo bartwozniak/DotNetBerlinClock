@@ -22,6 +22,14 @@ namespace BerlinClock.UnitTests
             Assert.Throws<ArgumentOutOfRangeException>(() => new Time(hours, minutes, seconds));
         }
 
+        [TestCase(-1, 00, 00)]
+        [TestCase(-100, 00, 00)]
+        [TestCase(-9999, 00, 00)]
+        public void CannotCreateTimeWithNegativeHours(int hours, int minutes, int seconds)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Time(hours, minutes, seconds));
+        }
+
         [TestCase(25, 00, 00)]
         [TestCase(30, 00, 00)]
         [TestCase(9999, 00, 00)]

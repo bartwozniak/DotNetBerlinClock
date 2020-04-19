@@ -21,6 +21,8 @@ namespace BerlinClock
 
         private void ValidateHours(int hour)
         {
+            if (hour < 0)
+                throw new ArgumentOutOfRangeException(nameof(Hour), hour, "Cennot accept negative value for hours.");
             if (hour > 24)
                 throw new ArgumentOutOfRangeException(nameof(Hour), hour, "Cennot accept value larger than 24 for hours.");
         }
