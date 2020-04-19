@@ -34,28 +34,35 @@ namespace BerlinClock.UnitTests
             Assert.IsFalse(result.IsOn);
         }
 
-        [TestCase(00, 00, 00)]
-        [TestCase(01, 00, 00)]
-        [TestCase(02, 00, 00)]
-        [TestCase(03, 00, 00)]
-        [TestCase(04, 00, 00)]
-        public void WhenConvertingFirstFiveHoursFirstRowIsOff(int hours, int minutes, int seconds)
+        [TestCase(00, 00, 00, 0)]
+        [TestCase(01, 00, 00, 0)]
+        [TestCase(02, 00, 00, 0)]
+        [TestCase(03, 00, 00, 0)]
+        [TestCase(04, 00, 00, 0)]
+        [TestCase(05, 00, 00, 1)]
+        [TestCase(05, 10, 10, 1)]
+        [TestCase(05, 59, 59, 1)]
+        [TestCase(07, 00, 00, 1)]
+        [TestCase(07, 30, 21, 1)]
+        [TestCase(09, 00, 00, 1)]
+        [TestCase(10, 00, 00, 2)]
+        [TestCase(10, 13, 45, 2)]
+        [TestCase(11, 13, 45, 2)]
+        [TestCase(14, 13, 45, 2)]
+        [TestCase(15, 00, 00, 3)]
+        [TestCase(15, 01, 01, 3)]
+        [TestCase(18, 01, 01, 3)]
+        [TestCase(20, 00, 00, 4)]
+        [TestCase(20, 11, 11, 4)]
+        [TestCase(22, 11, 11, 4)]
+        [TestCase(24, 00, 00, 4)]
+        public void WhenConvertingHoursCorrectNumberOfLightsIsOn(int hours, int minutes, int seconds, int expectedOn)
         {
             var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var row = berlinClock.FirstRow;
 
-            Assert.IsFalse(row.Any(l => l.IsOn));
-        }
-
-        [TestCase(05, 00, 00)]
-        [TestCase(05, 10, 10)]
-        [TestCase(05, 59, 59)]
-        public void WhenConvertingHourFiveFirstLightIsOn(int hours, int minutes, int seconds)
-        {
-            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
-            var row = berlinClock.FirstRow;
-
-            Assert.IsTrue(row[0].IsOn);
+            Assert.IsTrue(row.Take(expectedOn).All(l => l.IsOn));
+            Assert.IsFalse(row.Skip(expectedOn).Any(l => l.IsOn));
         }
     }
 }
