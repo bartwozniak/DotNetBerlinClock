@@ -8,31 +8,29 @@ namespace BerlinClock
         public readonly int Minute { get; }
         public readonly int Second { get; }
 
-        public Time(int hour, int minute, int second) : this()
+        public Time(int hour, int minute, int second)
         {
+            ValidateArgument(nameof(hour), hour, 0, 24);
+            ValidateArgument(nameof(second), second, 0, 59);
+            ValidateTime(hour, minute);
+
             Hour = hour;
-            ValidateHours(hour);
-
             Minute = minute;
-
-            ValidateSeconds(second);
             Second = second;
         }
 
-        private void ValidateHours(int hour)
+        private static void ValidateTime(int hour, int minute)
         {
-            if (hour < 0)
-                throw new ArgumentOutOfRangeException(nameof(Hour), hour, "Cennot accept negative value for hours.");
-            if (hour > 24)
-                throw new ArgumentOutOfRangeException(nameof(Hour), hour, "Cennot accept value larger than 24 for hours.");
+            if (hour == 24 && minute != 0)
+                throw new ArgumentOutOfRangeException($"Cannot accept value {minute} for minutes when hour is {hour}.");
         }
 
-        private void ValidateSeconds(int second)
+        private static void ValidateArgument(string argName, int argValue, int min, int max)
         {
-            if (second < 0)
-                throw new ArgumentOutOfRangeException(nameof(Second), second, "Cennot accept negative value for seconds.");
-            if (second > 59)
-                throw new ArgumentOutOfRangeException(nameof(Second), second, "Cennot accept value larger than 59 for seconds.");
+            if (argValue < min)
+                throw new ArgumentOutOfRangeException(argName, argValue, $"Cannot accept value lower than {min}.");
+            if (argValue > max)
+                throw new ArgumentOutOfRangeException(argName, argValue, $"Cannot accept value larger than {max}.");
         }
     }
 }
