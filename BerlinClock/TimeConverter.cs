@@ -1,4 +1,4 @@
-﻿using System;
+﻿using BerlinClock.Builder;
 
 namespace BerlinClock
 {
@@ -6,7 +6,11 @@ namespace BerlinClock
     {
         public string ConvertTime(string aTime)
         {
-            throw new NotImplementedException();
+            var time = new SimpleTimeParser().Parse(aTime);
+            var clock = new BerlinClockBuilder(time).Build();
+            var formatter = new StringFormatter();
+
+            return formatter.Format(clock);
         }
     }
 }
