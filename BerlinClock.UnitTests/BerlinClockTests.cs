@@ -62,8 +62,8 @@ namespace BerlinClock.UnitTests
             var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var row = berlinClock.FirstRow;
 
-            Assert.That(row.Take(expectedOn).Select(l => l.IsOn), Has.Exactly(expectedOn).True);
-            Assert.That(row.Skip(expectedOn).Select(l => l.IsOn), Has.Exactly(4 - expectedOn).False);
+            Assert.That(row.Take(expectedOn), Has.Exactly(expectedOn).LightsOn());
+            Assert.That(row.Skip(expectedOn), Has.Exactly(4 - expectedOn).LightsOff());
         }
 
         [TestCase(00, 00, 00, 0)]
@@ -83,8 +83,8 @@ namespace BerlinClock.UnitTests
             var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var row = berlinClock.SecondRow;
 
-            Assert.That(row.Take(expectedOn).Select(l => l.IsOn), Has.Exactly(expectedOn).True);
-            Assert.That(row.Skip(expectedOn).Select(l => l.IsOn), Has.Exactly(4 - expectedOn).False);
+            Assert.That(row.Take(expectedOn), Has.Exactly(expectedOn).LightsOn());
+            Assert.That(row.Skip(expectedOn), Has.Exactly(4 - expectedOn).LightsOff());
         }
 
         [TestCase(00, 00, 00, 0)]
@@ -106,8 +106,8 @@ namespace BerlinClock.UnitTests
             var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var row = berlinClock.ThirdRow;
 
-            Assert.That(row.Take(expectedOn).Select(l => l.IsOn), Has.Exactly(expectedOn).True);
-            Assert.That(row.Skip(expectedOn).Select(l => l.IsOn), Has.Exactly(11 - expectedOn).False);
+            Assert.That(row.Take(expectedOn), Has.Exactly(expectedOn).LightsOn());
+            Assert.That(row.Skip(expectedOn), Has.Exactly(11 - expectedOn).LightsOff());
         }
 
         [TestCase(00, 00, 00, 0)]
@@ -123,8 +123,8 @@ namespace BerlinClock.UnitTests
             var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var row = berlinClock.FourthRow;
 
-            Assert.That(row.Take(expectedOn).Select(l => l.IsOn), Has.Exactly(expectedOn).True);
-            Assert.That(row.Skip(expectedOn).Select(l => l.IsOn), Has.Exactly(4 - expectedOn).False);
+            Assert.That(row.Take(expectedOn), Has.Exactly(expectedOn).LightsOn());
+            Assert.That(row.Skip(expectedOn), Has.Exactly(4 - expectedOn).LightsOff());
         }
 
         [TestCase(00, 00, 00)]
@@ -138,8 +138,8 @@ namespace BerlinClock.UnitTests
             var firstRow = berlinClock.FirstRow;
             var secondRow = berlinClock.SecondRow;
 
-            Assert.That(firstRow, Has.Exactly(4).Matches<Light>(l => l.Color == Color.Red));
-            Assert.That(secondRow, Has.Exactly(4).Matches<Light>(l => l.Color == Color.Red));
+            Assert.That(firstRow, Has.Exactly(4).RedLights());
+            Assert.That(secondRow, Has.Exactly(4).RedLights());
         }
 
         [TestCase(00, 00, 00)]
@@ -156,7 +156,44 @@ namespace BerlinClock.UnitTests
             foreach (var quarterIndex in quarterIndices)
                 row.RemoveAt(quarterIndex);
 
-            Assert.That(row, Has.Exactly(11 - 3).Matches<Light>(l => l.Color == Color.Yellow));
+            Assert.That(row, Has.Exactly(11 - 3).YellowLights());
+        }
+
+        [TestCase(00, 00, 00)]
+        [TestCase(06, 06, 06)]
+        [TestCase(10, 16, 10)]
+        [TestCase(15, 25, 15)]
+        [TestCase(21, 40, 21)]
+        [TestCase(22, 48, 33)]
+        public void WhenClockIsContructedMinutesLightsInLastRowAreYellow(int hours, int minutes, int seconds)
+        {
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var row = berlinClock.FourthRow;
+
+            Assert.That(row, Has.Exactly(4).YellowLights());
+        }
+    }
+
+    internal static class AssertExtensions
+    {
+        public static NUnit.Framework.Constraints.Constraint YellowLights(this NUnit.Framework.Constraints.ItemsConstraintExpression expr)
+        {
+            return expr.Matches<Light>(l => l.Color == Color.Yellow);
+        }
+
+        public static NUnit.Framework.Constraints.Constraint RedLights(this NUnit.Framework.Constraints.ItemsConstraintExpression expr)
+        {
+            return expr.Matches<Light>(l => l.Color == Color.Red);
+        }
+
+        public static NUnit.Framework.Constraints.Constraint LightsOn(this NUnit.Framework.Constraints.ItemsConstraintExpression expr)
+        {
+            return expr.Matches<Light>(l => l.IsOn);
+        }
+
+        public static NUnit.Framework.Constraints.Constraint LightsOff(this NUnit.Framework.Constraints.ItemsConstraintExpression expr)
+        {
+            return expr.Matches<Light>(l => !l.IsOn);
         }
     }
 }
