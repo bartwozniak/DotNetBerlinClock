@@ -12,17 +12,19 @@ namespace BerlinClock
         {
             ValidateArgument(nameof(hour), hour, 0, 24);
             ValidateArgument(nameof(second), second, 0, 59);
-            ValidateTime(hour, minute);
+            ValidateTime(hour, minute, second);
 
             Hour = hour;
             Minute = minute;
             Second = second;
         }
 
-        private static void ValidateTime(int hour, int minute)
+        private static void ValidateTime(int hour, int minute, int second)
         {
             if (hour == 24 && minute != 0)
                 throw new ArgumentOutOfRangeException($"Cannot accept value {minute} for minutes when hour is {hour}.");
+            if (hour == 24 && second != 0)
+                throw new ArgumentOutOfRangeException($"Cannot accept value {second} for seconds when hour is {hour}.");
         }
 
         private static void ValidateArgument(string argName, int argValue, int min, int max)
