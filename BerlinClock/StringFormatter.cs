@@ -21,9 +21,7 @@ namespace BerlinClock
         {
             var sb = new StringBuilder();
             foreach(var light in row)
-            {
                 sb.Append(Format(light));
-            }
 
             return sb.ToString();
         }

@@ -40,17 +40,17 @@ namespace BerlinClock.Builder
             return this;
         }
 
-        IEnumerable<Light> IReadyRowBuilder.Build()
+        IReadOnlyList<Light> IReadyRowBuilder.Build()
         {
-            return MakeLights(_onCount, _count, _colorSelector);
+            return MakeLights(_onCount, _count, _colorSelector).ToList().AsReadOnly();
         }
 
-        private static IList<Light> MakeLights(int onCount, int lightsCount, Func<int, Color> colorSelector)
+        private static IEnumerable<Light> MakeLights(int onCount, int lightsCount, Func<int, Color> colorSelector)
         {
             var lightsOn = InitLights(true, colorSelector, 0, onCount);
             var lightsOff = InitLights(false, colorSelector, onCount, lightsCount);
 
-            return lightsOn.Concat(lightsOff).ToList();
+            return lightsOn.Concat(lightsOff);
 
             IEnumerable<Light> InitLights(bool value, Func<int, Color> colorSelector, int startIndex, int endIndex)
             {
@@ -73,6 +73,6 @@ namespace BerlinClock.Builder
 
     internal interface IReadyRowBuilder
     {
-        IEnumerable<Light> Build();
+        IReadOnlyList<Light> Build();
     }
 }

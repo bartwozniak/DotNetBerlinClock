@@ -2,6 +2,6 @@
 {
     public interface ITimeParser
     {
-        Time Parse(string testString);
+        Time Parse(string aTime);
     }
 }

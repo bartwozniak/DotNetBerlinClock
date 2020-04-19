@@ -38,7 +38,7 @@ namespace BerlinClock.Builder
             }
         }
 
-        private IEnumerable<Light> MakeFirstRow()
+        private IReadOnlyList<Light> MakeFirstRow()
         {
             var onCount = _time.Hour / 5;
             var row =
@@ -51,7 +51,7 @@ namespace BerlinClock.Builder
             return row;
         }
 
-        private IEnumerable<Light> MakeSecondRow()
+        private IReadOnlyList<Light> MakeSecondRow()
         {
             var onCount = _time.Hour % 5;
             var row =
@@ -64,7 +64,7 @@ namespace BerlinClock.Builder
             return row;
         }
 
-        private IEnumerable<Light> MakeThirdRow()
+        private IReadOnlyList<Light> MakeThirdRow()
         {
             var onCount = _time.Minute / 5;
             var qarterIndices = new int[] { 2, 5, 8 };
@@ -78,7 +78,7 @@ namespace BerlinClock.Builder
             return row;
         }
 
-        private IEnumerable<Light> MakeFourthRow()
+        private IReadOnlyList<Light> MakeFourthRow()
         {
             var onCount = _time.Minute % 5;
             var row =
