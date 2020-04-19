@@ -1,5 +1,4 @@
-﻿using System;
-using BerlinClock.Lights;
+﻿using BerlinClock.Lights;
 
 namespace BerlinClock
 {
@@ -7,22 +6,12 @@ namespace BerlinClock
     {
         public SecondsLight SecondsLight { get; private set; }
 
-        public BerlinClock(int hours, int minutes, int seconds)
+        public BerlinClock(Time time)
         {
-            ValidateSeconds(seconds);
-
-            if (IsEven(seconds))
+            if (IsEven(time.Second))
                 SecondsLight = SecondsLight.On;
             else
                 SecondsLight = SecondsLight.Off;
-        }
-
-        private void ValidateSeconds(int seconds)
-        {
-            if (seconds < 0)
-                throw new ArgumentOutOfRangeException(nameof(seconds), seconds, "Cennot accept negative value for seconds.");
-            if (seconds >= 60)
-                throw new ArgumentOutOfRangeException(nameof(seconds), seconds, "Cennot accept value larger than 59 for seconds.");
         }
 
         private bool IsEven(int digit)
