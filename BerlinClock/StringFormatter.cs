@@ -13,7 +13,8 @@ namespace BerlinClock
             var topHours = Format(clock.FirstRow);
             var bottomHours = Format(clock.SecondRow);
             var topMinutes = Format(clock.ThirdRow);
-            return $"{seconds}\n{topHours}\n{bottomHours}\n{topMinutes}\n";
+            var bottomMinutes = Format(clock.FourthRow);
+            return $"{seconds}\n{topHours}\n{bottomHours}\n{topMinutes}\n{bottomMinutes}";
         }
 
         private string Format(IEnumerable<Light> row)
@@ -32,10 +33,10 @@ namespace BerlinClock
             if (!light.IsOn)
                 return "O";
 
-            return FirstLetter(light.Color);
+            return FirstLetterOf(light.Color);
         }
 
-        private string FirstLetter(Color color)
+        private string FirstLetterOf(Color color)
         {
             var enumString = color.ToString();
             return enumString[0].ToString();
