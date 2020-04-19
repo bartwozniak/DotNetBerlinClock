@@ -37,47 +37,33 @@ namespace BerlinClock
 
         private IList<Light> MakeFirstRow(Time time)
         {
-            return MakeMajorTickLights(time.Hour, 5, 4, Color.Red);
+            var onCount = time.Hour / 5;
+            return MakeLights(onCount, 4, Color.Red);
         }
 
         private IList<Light> MakeSecondRow(Time time)
         {
-            return MakeMinorTickLights(time.Hour, 5, 4, Color.Red);
+            var onCount = time.Hour % 5;
+            return MakeLights(onCount, 4, Color.Red);
         }
 
         private IList<Light> MakeThirdRow(Time time)
         {
+            var onCount = time.Minute / 5;
             var qarterIndices = new int[] { 2, 5, 8 };
-            return MakeMajorTickLights(time.Minute, 5, 11, idx => qarterIndices.Contains(idx) ? Color.Red : Color.Yellow);
+            return MakeLights(onCount, 11, idx => qarterIndices.Contains(idx) ? Color.Red : Color.Yellow);
         }
 
         private IList<Light> MakeFourthRow(Time time)
         {
-            return MakeMinorTickLights(time.Minute, 5, 4, Color.Yellow);
+            var onCount = time.Minute % 5;
+            return MakeLights(onCount, 4, Color.Yellow);
         }
 
-        private IList<Light> MakeMajorTickLights(int value, int tickValue, int lightsCount, Color color)
+        private static IList<Light> MakeLights(int onCount, int lightsCount, Func<int, Color> colorSelector)
         {
-            var countOn = value / tickValue;
-            return MakeLights(lightsCount, countOn, color);
-        }
-
-        private IList<Light> MakeMajorTickLights(int value, int tickValue, int lightsCount, Func<int, Color> colorSelector)
-        {
-            var countOn = value / tickValue;
-            return MakeLights(lightsCount, countOn, colorSelector);
-        }
-
-        private IList<Light> MakeMinorTickLights(int value, int tickValue, int lightsCount, Color color)
-        {
-            var countOn = value % tickValue;
-            return MakeLights(lightsCount, countOn, color);
-        }
-
-        private static IList<Light> MakeLights(int lightsCount, int countOn, Func<int, Color> colorSelector)
-        {
-            var lightsOn = InitLights(true, colorSelector, 0, countOn);
-            var lightsOff = InitLights(false, colorSelector, countOn, lightsCount);
+            var lightsOn = InitLights(true, colorSelector, 0, onCount);
+            var lightsOff = InitLights(false, colorSelector, onCount, lightsCount);
 
             return lightsOn.Concat(lightsOff).ToList();
 
