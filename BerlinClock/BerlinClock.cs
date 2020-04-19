@@ -47,7 +47,8 @@ namespace BerlinClock
 
         private IList<Light> MakeThirdRow(Time time)
         {
-            return MakeMajorTickLights(time.Minute, 5, 11, Color.Yellow);
+            var qarterIndices = new int[] { 2, 5, 8 };
+            return MakeMajorTickLights(time.Minute, 5, 11, idx => qarterIndices.Contains(idx) ? Color.Red : Color.Yellow);
         }
 
         private IList<Light> MakeFourthRow(Time time)
@@ -61,24 +62,35 @@ namespace BerlinClock
             return MakeLights(lightsCount, countOn, color);
         }
 
+        private IList<Light> MakeMajorTickLights(int value, int tickValue, int lightsCount, Func<int, Color> colorSelector)
+        {
+            var countOn = value / tickValue;
+            return MakeLights(lightsCount, countOn, colorSelector);
+        }
+
         private IList<Light> MakeMinorTickLights(int value, int tickValue, int lightsCount, Color color)
         {
             var countOn = value % tickValue;
             return MakeLights(lightsCount, countOn, color);
         }
 
-        private static IList<Light> MakeLights(int lightsCount, int countOn, Color color)
+        private static IList<Light> MakeLights(int lightsCount, int countOn, Func<int, Color> colorSelector)
         {
-            var lightsOn = CreateLights(new Light(true, color), countOn);
-            var lightsOff = CreateLights(new Light(false, color), lightsCount - countOn);
+            var lightsOn = InitLights(true, colorSelector, 0, countOn);
+            var lightsOff = InitLights(false, colorSelector, countOn, lightsCount);
 
             return lightsOn.Concat(lightsOff).ToList();
 
-            IEnumerable<Light> CreateLights(Light element, int count)
+            IEnumerable<Light> InitLights(bool value, Func<int, Color> colorSelector, int startIndex, int endIndex)
             {
-                for (int i = 0; i < count; ++i)
-                    yield return element;
+                for (int i = startIndex; i < endIndex; ++i)
+                    yield return new Light(value, colorSelector(i));
             }
+        }
+
+        private static IList<Light> MakeLights(int lightsCount, int countOn, Color color)
+        {
+            return MakeLights(lightsCount, countOn, _ => color);
         }
     }
 }
