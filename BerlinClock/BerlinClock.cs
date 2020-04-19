@@ -11,6 +11,9 @@ namespace BerlinClock
         {
             if (seconds < 0)
                 throw new ArgumentException("Cennot accept negative value for seconds.", nameof(seconds));
+            if (seconds >= 60)
+                throw new ArgumentException("Cennot accept value larger than 59 for seconds.", nameof(seconds));
+
 
             if (IsEven(seconds))
                 SecondsLight = SecondsLight.On;
