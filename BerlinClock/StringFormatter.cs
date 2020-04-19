@@ -10,8 +10,9 @@ namespace BerlinClock
         public string Format(BerlinClock clock)
         {
             var seconds = Format(clock.SecondsLight);
-            var hours = Format(clock.FirstRow);
-            return $"{seconds}\n{hours}\n\n\n";
+            var topHours = Format(clock.FirstRow);
+            var bottomHours = Format(clock.SecondRow);
+            return $"{seconds}\n{topHours}\n{bottomHours}\n\n";
         }
 
         private string Format(IEnumerable<Light> row)
