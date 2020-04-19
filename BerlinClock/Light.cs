@@ -1,6 +1,6 @@
 ﻿namespace BerlinClock
 {
-    public struct Light
+    public readonly struct Light
     {
         public bool IsOn { get; }
         public Color Color { get; }
