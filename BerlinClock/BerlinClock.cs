@@ -43,10 +43,12 @@ namespace BerlinClock
 
         private IList<Light> MakeSecondRow(Time time)
         {
-            if (time.Hour != 0)
-                return new[] { Light.On, Light.Off, Light.Off, Light.Off };
+            var hours = time.Hour;
+            var countOn = hours % 5;
+            var lightsOn = CreateLights(Light.On, countOn);
+            var lightsOff = CreateLights(Light.Off, 4 - countOn);
 
-            return new Light[4];
+            return lightsOn.Concat(lightsOff).ToList();
         }
 
         private static IEnumerable<Light> CreateLights(Light element, int count)
