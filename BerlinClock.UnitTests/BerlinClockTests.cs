@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace BerlinClock.UnitTests
 {
-    public class Tests
+    public class BerlinClockTests
     {
         [TestCase(24, 00, 00)]
         [TestCase(00, 00, 00)]
