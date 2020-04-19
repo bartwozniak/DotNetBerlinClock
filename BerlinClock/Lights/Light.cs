@@ -3,7 +3,7 @@
     public struct Light
     {
         public bool IsOn { get; }
-        public Color Color { get; set; }
+        public Color Color { get; }
 
         public Light(bool isOn, Color color)
         {
