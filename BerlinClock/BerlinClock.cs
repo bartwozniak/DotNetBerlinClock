@@ -9,35 +9,21 @@ namespace BerlinClock
     {
         public Light SecondsLight { get; private set; }
         public IList<Light> FirstRow { get; private set; }
+        public IList<Light> SecondRow { get; private set; }
 
         public BerlinClock(Time time)
         {
-            MakeSecondsLight(time);
-            MakeFirstRow(time);
+            SecondsLight = MakeSecondsLight(time);
+            FirstRow = MakeFirstRow(time);
+            SecondRow = MakeSecondRow(time);
         }
 
-        private void MakeFirstRow(Time time)
-        {
-            var hours = time.Hour;
-            var countOn = hours / 5;
-            var lightsOn = CreateLights(Light.On, countOn);
-            var lightsOff = CreateLights(Light.Off, 4 - countOn);
-
-            FirstRow = lightsOn.Concat(lightsOff).ToList();
-        }
-
-        private static IEnumerable<Light> CreateLights(Light element, int count)
-        {
-            for (int i = 0; i < count; ++i)
-                yield return element;
-        }
-
-        private void MakeSecondsLight(Time time)
+        private Light MakeSecondsLight(Time time)
         {
             if (IsEven(time.Second))
-                SecondsLight = Light.On;
-            else
-                SecondsLight = Light.Off;
+                return Light.On;
+
+            return Light.Off;
 
             bool IsEven(int digit)
             {
@@ -45,5 +31,25 @@ namespace BerlinClock
             }
         }
 
+        private IList<Light> MakeFirstRow(Time time)
+        {
+            var hours = time.Hour;
+            var countOn = hours / 5;
+            var lightsOn = CreateLights(Light.On, countOn);
+            var lightsOff = CreateLights(Light.Off, 4 - countOn);
+
+            return lightsOn.Concat(lightsOff).ToList();
+        }
+
+        private IList<Light> MakeSecondRow(Time time)
+        {
+            return new Light[4];
+        }
+
+        private static IEnumerable<Light> CreateLights(Light element, int count)
+        {
+            for (int i = 0; i < count; ++i)
+                yield return element;
+        }
     }
 }

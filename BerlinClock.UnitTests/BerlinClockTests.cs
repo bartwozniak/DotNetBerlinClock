@@ -56,7 +56,17 @@ namespace BerlinClock.UnitTests
         [TestCase(20, 11, 11, 4)]
         [TestCase(22, 11, 11, 4)]
         [TestCase(24, 00, 00, 4)]
-        public void WhenConvertingHoursCorrectNumberOfLightsIsOn(int hours, int minutes, int seconds, int expectedOn)
+        public void WhenConvertingHoursCorrectNumberOfLightsInFirstRowIsOn(int hours, int minutes, int seconds, int expectedOn)
+        {
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var row = berlinClock.FirstRow;
+
+            Assert.IsTrue(row.Take(expectedOn).All(l => l.IsOn));
+            Assert.IsFalse(row.Skip(expectedOn).Any(l => l.IsOn));
+        }
+
+        [TestCase(00, 00, 00, 0)]
+        public void WhenConvertingHoursCorrectNumberOfLightsInSecondRowIsOn(int hours, int minutes, int seconds, int expectedOn)
         {
             var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var row = berlinClock.FirstRow;
