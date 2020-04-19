@@ -108,5 +108,22 @@ namespace BerlinClock.UnitTests
             Assert.That(row.Take(expectedOn).Select(l => l.IsOn), Has.Exactly(expectedOn).True);
             Assert.That(row.Skip(expectedOn).Select(l => l.IsOn), Has.Exactly(11 - expectedOn).False);
         }
+
+        [TestCase(00, 00, 00, 0)]
+        [TestCase(00, 01, 00, 1)]
+        [TestCase(00, 05, 00, 0)]
+        [TestCase(00, 30, 00, 0)]
+        [TestCase(00, 32, 00, 2)]
+        [TestCase(00, 44, 00, 4)]
+        [TestCase(00, 51, 00, 1)]
+        [TestCase(00, 59, 00, 4)]
+        public void WhenConvertingMinutesCorrectNumberOfLightsInFourthRowIsOn(int hours, int minutes, int seconds, int expectedOn)
+        {
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var row = berlinClock.FourthRow;
+
+            Assert.That(row.Take(expectedOn).Select(l => l.IsOn), Has.Exactly(expectedOn).True);
+            Assert.That(row.Skip(expectedOn).Select(l => l.IsOn), Has.Exactly(4 - expectedOn).False);
+        }
     }
 }
