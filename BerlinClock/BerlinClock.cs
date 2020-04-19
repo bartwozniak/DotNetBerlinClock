@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BerlinClock.Lights;
 
 namespace BerlinClock
@@ -17,7 +18,18 @@ namespace BerlinClock
 
         private void MakeFirstRow(Time time)
         {
-            FirstRow = new Light[4];
+            var hours = time.Hour;
+            var countOn = hours / 5;
+            var lightsOn = CreateLights(Light.On, countOn);
+            var lightsOff = CreateLights(Light.Off, 4 - countOn);
+
+            FirstRow = lightsOn.Concat(lightsOff).ToList();
+        }
+
+        private static IEnumerable<Light> CreateLights(Light element, int count)
+        {
+            for (int i = 0; i < count; ++i)
+                yield return element;
         }
 
         private void MakeSecondsLight(Time time)

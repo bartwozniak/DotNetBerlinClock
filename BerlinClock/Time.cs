@@ -4,10 +4,15 @@ namespace BerlinClock
 {
     public readonly struct Time
     {
+        public readonly int Hour { get; }
+        public readonly int Minute { get; }
         public readonly int Second { get; }
 
-        public Time(int second) : this()
+        public Time(int hour, int minute, int second) : this()
         {
+            Hour = hour;
+            Minute = minute;
+
             ValidateSeconds(second);
             Second = second;
         }

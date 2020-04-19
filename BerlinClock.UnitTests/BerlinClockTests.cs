@@ -14,7 +14,7 @@ namespace BerlinClock.UnitTests
         [TestCase(22, 12, 58)]
         public void WhenConvertingEvenSecondsFirstLightIsOn(int hours, int minutes, int seconds)
         {
-            var berlinClock = new BerlinClock(new Time(seconds));
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var result = berlinClock.SecondsLight;
 
             Assert.IsTrue(result.IsOn);
@@ -28,7 +28,7 @@ namespace BerlinClock.UnitTests
         [TestCase(22, 12, 17)]
         public void WhenConvertingOddSecondsFirstLightIsOff(int hours, int minutes, int seconds)
         {
-            var berlinClock = new BerlinClock(new Time(seconds));
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var result = berlinClock.SecondsLight;
 
             Assert.IsFalse(result.IsOn);
@@ -41,10 +41,21 @@ namespace BerlinClock.UnitTests
         [TestCase(04, 00, 00)]
         public void WhenConvertingFirstFiveHoursFirstRowIsOff(int hours, int minutes, int seconds)
         {
-            var berlinClock = new BerlinClock(new Time(seconds));
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
             var row = berlinClock.FirstRow;
 
             Assert.IsFalse(row.Any(l => l.IsOn));
+        }
+
+        [TestCase(05, 00, 00)]
+        [TestCase(05, 10, 10)]
+        [TestCase(05, 59, 59)]
+        public void WhenConvertingHourFiveFirstLightIsOn(int hours, int minutes, int seconds)
+        {
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var row = berlinClock.FirstRow;
+
+            Assert.IsTrue(row[0].IsOn);
         }
     }
 }
