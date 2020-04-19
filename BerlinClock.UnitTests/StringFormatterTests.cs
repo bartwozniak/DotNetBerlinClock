@@ -58,5 +58,27 @@ namespace BerlinClock.UnitTests
 
             Assert.That(secondsOutput, Is.EqualTo(expectedOutput));
         }
+
+        [TestCase(00, "OOOOOOOOOOO")]
+        [TestCase(01, "OOOOOOOOOOO")]
+        [TestCase(05, "YOOOOOOOOOO")]
+        [TestCase(11, "YYOOOOOOOOO")]
+        [TestCase(18, "YYROOOOOOOO")]
+        [TestCase(23, "YYRYOOOOOOO")]
+        [TestCase(25, "YYRYYOOOOOO")]
+        [TestCase(32, "YYRYYROOOOO")]
+        [TestCase(39, "YYRYYRYOOOO")]
+        [TestCase(43, "YYRYYRYYOOO")]
+        [TestCase(45, "YYRYYRYYROO")]
+        [TestCase(51, "YYRYYRYYRYO")]
+        [TestCase(56, "YYRYYRYYRYY")]
+        public void WhenFormattingBerlinClockTopRowMinutesAreDenotedCorrectly(int minute, string expectedOutput)
+        {
+            var formatter = new StringFormatter();
+            var output = formatter.Format(new BerlinClock(new Time(0, minute, 0)));
+            var secondsOutput = output.Split(Environment.NewLine)[3];
+
+            Assert.That(secondsOutput, Is.EqualTo(expectedOutput));
+        }
     }
 }

@@ -12,7 +12,8 @@ namespace BerlinClock
             var seconds = Format(clock.SecondsLight);
             var topHours = Format(clock.FirstRow);
             var bottomHours = Format(clock.SecondRow);
-            return $"{seconds}\n{topHours}\n{bottomHours}\n\n";
+            var topMinutes = Format(clock.ThirdRow);
+            return $"{seconds}\n{topHours}\n{bottomHours}\n{topMinutes}\n";
         }
 
         private string Format(IEnumerable<Light> row)
