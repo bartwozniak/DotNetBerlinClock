@@ -1,4 +1,5 @@
 using System.Linq;
+using BerlinClock.Lights;
 using NUnit.Framework;
 
 namespace BerlinClock.UnitTests
@@ -124,6 +125,15 @@ namespace BerlinClock.UnitTests
 
             Assert.That(row.Take(expectedOn).Select(l => l.IsOn), Has.Exactly(expectedOn).True);
             Assert.That(row.Skip(expectedOn).Select(l => l.IsOn), Has.Exactly(4 - expectedOn).False);
+        }
+
+        [TestCase(00, 00, 00)]
+        public void WhenClockIsContructedAllHourLightsAreRed(int hours, int minutes, int seconds)
+        {
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var row = berlinClock.FirstRow;
+
+            Assert.That(row, Has.Exactly(4).Matches<Light>(l => l.Color == Color.Red));
         }
     }
 }

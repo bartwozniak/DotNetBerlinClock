@@ -25,9 +25,9 @@ namespace BerlinClock
         private Light MakeSecondsLight(Time time)
         {
             if (IsEven(time.Second))
-                return Light.On;
+                return new Light(true, Color.Yellow);
 
-            return Light.Off;
+            return new Light(false, Color.Yellow);
 
             bool IsEven(int digit)
             {
@@ -69,8 +69,8 @@ namespace BerlinClock
 
         private static IList<Light> MakeLights(int lightsCount, int countOn)
         {
-            var lightsOn = CreateLights(Light.On, countOn);
-            var lightsOff = CreateLights(Light.Off, lightsCount - countOn);
+            var lightsOn = CreateLights(new Light(true, Color.Red), countOn);
+            var lightsOff = CreateLights(new Light(false, Color.Red), lightsCount - countOn);
 
             return lightsOn.Concat(lightsOff).ToList();
 
