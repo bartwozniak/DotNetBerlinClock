@@ -141,5 +141,18 @@ namespace BerlinClock.UnitTests
             Assert.That(firstRow, Has.Exactly(4).Matches<Light>(l => l.Color == Color.Red));
             Assert.That(secondRow, Has.Exactly(4).Matches<Light>(l => l.Color == Color.Red));
         }
+
+        [TestCase(00, 00, 00)]
+        [TestCase(06, 06, 06)]
+        [TestCase(10, 10, 10)]
+        [TestCase(15, 15, 15)]
+        [TestCase(21, 21, 21)]
+        public void WhenClockIsContructedSecondsLightIsRed(int hours, int minutes, int seconds)
+        {
+            var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
+            var light = berlinClock.SecondsLight;
+
+            Assert.That(light.Color, Is.EqualTo(Color.Yellow));
+        }
     }
 }
