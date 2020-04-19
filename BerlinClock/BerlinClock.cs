@@ -7,15 +7,17 @@ namespace BerlinClock
 {
     public class BerlinClock
     {
-        public Light SecondsLight { get; private set; }
-        public IEnumerable<Light> FirstRow { get; private set; }
-        public IEnumerable<Light> SecondRow { get; private set; }
+        public Light SecondsLight { get; }
+        public IEnumerable<Light> FirstRow { get; }
+        public IEnumerable<Light> SecondRow { get; }
+        public IEnumerable<Light> ThirdRow { get; }
 
         public BerlinClock(Time time)
         {
             SecondsLight = MakeSecondsLight(time);
             FirstRow = MakeFirstRow(time);
             SecondRow = MakeSecondRow(time);
+            ThirdRow = MakeThirdRow(time);
         }
 
         private Light MakeSecondsLight(Time time)
@@ -49,6 +51,11 @@ namespace BerlinClock
             var lightsOff = CreateLights(Light.Off, 4 - countOn);
 
             return lightsOn.Concat(lightsOff).ToList();
+        }
+
+        private IList<Light> MakeThirdRow(Time time)
+        {
+            return new Light[11];
         }
 
         private static IEnumerable<Light> CreateLights(Light element, int count)
