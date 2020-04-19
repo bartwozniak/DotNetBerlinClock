@@ -36,5 +36,15 @@ namespace BerlinClock.UnitTests
 
             Assert.Throws<ArgumentException>(() => parser.Parse(null));
         }
+
+        [TestCase("xx:11:22")]
+        [TestCase("03:1m:22")]
+        [TestCase("03:12:ss")]
+        public void WhenParsingTimeAllComponentsMustBeIntegers(string testString)
+        {
+            var parser = new SimpleTimeParser();
+
+            Assert.Throws<FormatException>(() => parser.Parse(testString));
+        }
     }
 }
