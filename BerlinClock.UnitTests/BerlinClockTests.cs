@@ -87,6 +87,19 @@ namespace BerlinClock.UnitTests
         }
 
         [TestCase(00, 00, 00, 0)]
+        [TestCase(00, 01, 00, 0)]
+        [TestCase(00, 05, 00, 1)]
+        [TestCase(00, 07, 00, 1)]
+        [TestCase(00, 10, 00, 2)]
+        [TestCase(00, 15, 00, 3)]
+        [TestCase(00, 20, 00, 4)]
+        [TestCase(00, 25, 00, 5)]
+        [TestCase(00, 30, 00, 6)]
+        [TestCase(00, 35, 00, 7)]
+        [TestCase(00, 40, 00, 8)]
+        [TestCase(00, 45, 00, 9)]
+        [TestCase(00, 50, 00, 10)]
+        [TestCase(00, 55, 00, 11)]
         public void WhenConvertingMinutesCorrectNumberOfLightsInThirdRowIsOn(int hours, int minutes, int seconds, int expectedOn)
         {
             var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));

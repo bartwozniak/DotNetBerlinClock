@@ -55,7 +55,12 @@ namespace BerlinClock
 
         private IList<Light> MakeThirdRow(Time time)
         {
-            return new Light[11];
+            var minutes = time.Minute;
+            var countOn = minutes / 5;
+            var lightsOn = CreateLights(Light.On, countOn);
+            var lightsOff = CreateLights(Light.Off, 11 - countOn);
+
+            return lightsOn.Concat(lightsOff).ToList();
         }
 
         private static IEnumerable<Light> CreateLights(Light element, int count)
