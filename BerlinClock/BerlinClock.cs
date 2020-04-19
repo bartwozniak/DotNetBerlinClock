@@ -8,8 +8,8 @@ namespace BerlinClock
     public class BerlinClock
     {
         public Light SecondsLight { get; private set; }
-        public IList<Light> FirstRow { get; private set; }
-        public IList<Light> SecondRow { get; private set; }
+        public IEnumerable<Light> FirstRow { get; private set; }
+        public IEnumerable<Light> SecondRow { get; private set; }
 
         public BerlinClock(Time time)
         {
