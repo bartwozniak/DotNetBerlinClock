@@ -1,6 +1,7 @@
-﻿using BerlinClock;
-
-public interface ITimeParser
+﻿namespace BerlinClock
 {
-    Time Parse(string testString);
+    public interface ITimeParser
+    {
+        Time Parse(string testString);
+    }
 }

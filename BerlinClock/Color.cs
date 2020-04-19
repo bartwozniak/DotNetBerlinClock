@@ -1,5 +1,8 @@
-﻿public enum Color
+﻿namespace BerlinClock
 {
-    Yellow = 0,
-    Red = 1
+    public enum Color
+    {
+        Yellow = 0,
+        Red = 1
+    }
 }

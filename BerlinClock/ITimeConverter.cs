@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BerlinClock
+﻿namespace BerlinClock
 {
     public interface ITimeConverter
     {

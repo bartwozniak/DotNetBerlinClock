@@ -2,9 +2,9 @@
 
 namespace BerlinClock
 {
-    public class TimeConverter : ITimeConverter
+    public class StringFormatter : IBerlinClockFormatter<string>
     {
-        public string ConvertTime(string aTime)
+        public string Format(BerlinClock clock)
         {
             throw new NotImplementedException();
         }
