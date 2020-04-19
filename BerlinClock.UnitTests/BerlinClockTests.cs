@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace BerlinClock.UnitTests
@@ -31,6 +32,14 @@ namespace BerlinClock.UnitTests
             var result = berlinClock.SecondsLight;
 
             Assert.IsFalse(result.IsOn);
+        }
+
+        [TestCase(10, 10, -1)]
+        [TestCase(10, 10, -10)]
+        [TestCase(10, 10, -100000)]
+        public void WhenConvertingNegativeSecondsClockCannotBeConstructed(int hours, int minutes, int negativeSeconds)
+        {
+            Assert.Throws<ArgumentException>(() => new BerlinClock(hours, minutes, negativeSeconds));
         }
     }
 }
