@@ -1,22 +1,36 @@
-﻿using BerlinClock.Lights;
+﻿using System;
+using System.Collections.Generic;
+using BerlinClock.Lights;
 
 namespace BerlinClock
 {
     public class BerlinClock
     {
-        public SecondsLight SecondsLight { get; private set; }
+        public Light SecondsLight { get; private set; }
+        public IList<Light> FirstRow { get; private set; }
 
         public BerlinClock(Time time)
         {
-            if (IsEven(time.Second))
-                SecondsLight = SecondsLight.On;
-            else
-                SecondsLight = SecondsLight.Off;
+            MakeSecondsLight(time);
+            MakeFirstRow(time);
         }
 
-        private bool IsEven(int digit)
+        private void MakeFirstRow(Time time)
         {
-            return digit % 2 == 0;
+            FirstRow = new Light[4];
+        }
+
+        private void MakeSecondsLight(Time time)
+        {
+            if (IsEven(time.Second))
+                SecondsLight = Light.On;
+            else
+                SecondsLight = Light.Off;
+
+            bool IsEven(int digit)
+            {
+                return digit % 2 == 0;
+            }
         }
 
     }

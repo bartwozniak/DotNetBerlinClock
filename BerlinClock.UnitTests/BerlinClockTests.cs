@@ -1,3 +1,4 @@
+using System.Linq;
 using NUnit.Framework;
 
 namespace BerlinClock.UnitTests
@@ -11,7 +12,7 @@ namespace BerlinClock.UnitTests
         [TestCase(10, 55, 04)]
         [TestCase(04, 37, 08)]
         [TestCase(22, 12, 58)]
-        public void WhenConvertingEvenSecondsFirstLightShouldBeOn(int hours, int minutes, int seconds)
+        public void WhenConvertingEvenSecondsFirstLightIsOn(int hours, int minutes, int seconds)
         {
             var berlinClock = new BerlinClock(new Time(seconds));
             var result = berlinClock.SecondsLight;
@@ -25,12 +26,21 @@ namespace BerlinClock.UnitTests
         [TestCase(10, 55, 05)]
         [TestCase(04, 37, 59)]
         [TestCase(22, 12, 17)]
-        public void WhenConvertingOddSecondsFirstLightShouldBeOff(int hours, int minutes, int seconds)
+        public void WhenConvertingOddSecondsFirstLightIsOff(int hours, int minutes, int seconds)
         {
             var berlinClock = new BerlinClock(new Time(seconds));
             var result = berlinClock.SecondsLight;
 
             Assert.IsFalse(result.IsOn);
+        }
+
+        [TestCase(00, 00, 00)]
+        public void WhenConvertingMidnightFirstRowIsOff(int hours, int minutes, int seconds)
+        {
+            var berlinClock = new BerlinClock(new Time(seconds));
+            var row = berlinClock.FirstRow;
+
+            Assert.IsFalse(row.Any(l => l.IsOn));
         }
     }
 }
