@@ -11,18 +11,26 @@ namespace BerlinClock
         public Time(int hour, int minute, int second) : this()
         {
             Hour = hour;
+            ValidateHours(hour);
+
             Minute = minute;
 
             ValidateSeconds(second);
             Second = second;
         }
 
+        private void ValidateHours(int hour)
+        {
+            if (hour > 24)
+                throw new ArgumentOutOfRangeException(nameof(Hour), hour, "Cennot accept value larger than 24 for hours.");
+        }
+
         private void ValidateSeconds(int second)
         {
             if (second < 0)
-                throw new ArgumentOutOfRangeException(nameof(second), second, "Cennot accept negative value for seconds.");
+                throw new ArgumentOutOfRangeException(nameof(Second), second, "Cennot accept negative value for seconds.");
             if (second > 59)
-                throw new ArgumentOutOfRangeException(nameof(second), second, "Cennot accept value larger than 59 for seconds.");
+                throw new ArgumentOutOfRangeException(nameof(Second), second, "Cennot accept value larger than 59 for seconds.");
         }
     }
 }
