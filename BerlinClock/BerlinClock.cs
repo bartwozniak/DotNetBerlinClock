@@ -37,40 +37,40 @@ namespace BerlinClock
 
         private IList<Light> MakeFirstRow(Time time)
         {
-            return MakeMajorTickLights(time.Hour, 5, 4);
+            return MakeMajorTickLights(time.Hour, 5, 4, Color.Red);
         }
 
         private IList<Light> MakeSecondRow(Time time)
         {
-            return MakeMinorTickLights(time.Hour, 5, 4);
+            return MakeMinorTickLights(time.Hour, 5, 4, Color.Red);
         }
 
         private IList<Light> MakeThirdRow(Time time)
         {
-            return MakeMajorTickLights(time.Minute, 5, 11);
+            return MakeMajorTickLights(time.Minute, 5, 11, Color.Yellow);
         }
 
         private IList<Light> MakeFourthRow(Time time)
         {
-            return MakeMinorTickLights(time.Minute, 5, 4);
+            return MakeMinorTickLights(time.Minute, 5, 4, Color.Yellow);
         }
 
-        private IList<Light> MakeMajorTickLights(int value, int tickValue, int lightsCount)
+        private IList<Light> MakeMajorTickLights(int value, int tickValue, int lightsCount, Color color)
         {
             var countOn = value / tickValue;
-            return MakeLights(lightsCount, countOn);
+            return MakeLights(lightsCount, countOn, color);
         }
 
-        private IList<Light> MakeMinorTickLights(int value, int tickValue, int lightsCount)
+        private IList<Light> MakeMinorTickLights(int value, int tickValue, int lightsCount, Color color)
         {
             var countOn = value % tickValue;
-            return MakeLights(lightsCount, countOn);
+            return MakeLights(lightsCount, countOn, color);
         }
 
-        private static IList<Light> MakeLights(int lightsCount, int countOn)
+        private static IList<Light> MakeLights(int lightsCount, int countOn, Color color)
         {
-            var lightsOn = CreateLights(new Light(true, Color.Red), countOn);
-            var lightsOff = CreateLights(new Light(false, Color.Red), lightsCount - countOn);
+            var lightsOn = CreateLights(new Light(true, color), countOn);
+            var lightsOff = CreateLights(new Light(false, color), lightsCount - countOn);
 
             return lightsOn.Concat(lightsOff).ToList();
 

@@ -144,15 +144,19 @@ namespace BerlinClock.UnitTests
 
         [TestCase(00, 00, 00)]
         [TestCase(06, 06, 06)]
-        [TestCase(10, 10, 10)]
-        [TestCase(15, 15, 15)]
-        [TestCase(21, 21, 21)]
-        public void WhenClockIsContructedSecondsLightIsRed(int hours, int minutes, int seconds)
+        [TestCase(10, 16, 10)]
+        [TestCase(15, 25, 15)]
+        [TestCase(21, 40, 21)]
+        [TestCase(22, 48, 33)]
+        public void WhenClockIsContructedMinutesLightsNotForQuartersAreYellow(int hours, int minutes, int seconds)
         {
+            var quarterIndices = new[] { 2, 5, 8 };
             var berlinClock = new BerlinClock(new Time(hours, minutes, seconds));
-            var light = berlinClock.SecondsLight;
+            var row = berlinClock.ThirdRow.ToList();
+            foreach (var quarterIndex in quarterIndices)
+                row.RemoveAt(quarterIndex);
 
-            Assert.That(light.Color, Is.EqualTo(Color.Yellow));
+            Assert.That(row, Has.Exactly(11 - 3).Matches<Light>(l => l.Color == Color.Yellow));
         }
     }
 }
