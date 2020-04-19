@@ -35,7 +35,11 @@ namespace BerlinClock.UnitTests
         }
 
         [TestCase(00, 00, 00)]
-        public void WhenConvertingMidnightFirstRowIsOff(int hours, int minutes, int seconds)
+        [TestCase(01, 00, 00)]
+        [TestCase(02, 00, 00)]
+        [TestCase(03, 00, 00)]
+        [TestCase(04, 00, 00)]
+        public void WhenConvertingFirstFiveHoursFirstRowIsOff(int hours, int minutes, int seconds)
         {
             var berlinClock = new BerlinClock(new Time(seconds));
             var row = berlinClock.FirstRow;
